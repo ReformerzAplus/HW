@@ -14,19 +14,26 @@ db = client.hw_2_591
 #進入Collection
 collection = db.house_info
 
-# curl localhostt:5000/room?location=newTaipei&gender=male
+# 【男生可承租】且【位於新北】的租屋物件
+# curl "http://localhost:5000/room?location=NewTaipeiCity&gender=female"
 @app.route('/room')
 def getRoom():
-    # male/female
-    gender = request.args.get('gender')
-    # newTaipei/Taipei
     location = request.args.get('location')
-    querySex = "男生"
+    gender = request.args.get('gender')
+    print(request.args)
+    
     queryLocation = "新北市"
-    if location == "Taipei":
-        queryLocation = "台北市"
+    querySex = "女生"
+    
     if gender == "female":
         querySex = "女生"
+    else:
+        querySex = "男生"
+    if location == "Taipei":
+        queryLocation = "台北市"
+    else:
+        queryLocation = "新北市"
+
     result = []
     print(queryLocation)
     print(querySex)
@@ -34,8 +41,8 @@ def getRoom():
         result.append(room)
     return str(result)
 
-# 3
-# /phone/0911-111-111
+# 以【聯絡電話】查詢租屋物件
+# curl "http://localhost:5000/phone/0900-300-316"
 @app.route('/phone/<phone>')
 def getPhone(phone):
     result = []
@@ -43,11 +50,9 @@ def getPhone(phone):
         result.append(room)
     return str(result)
 
-# 4
-# /notOwner/非屋主
-# curl localhostt:5000/room/owner?owner=False
-# curl localhostt:5000/room/owner?owner=True
-# 
+# 所有【非屋主自行刊登】的租屋物件
+# curl "http://localhost:5000/room/owner?owner=False"      查詢非屋主之刊登資訊
+# curl "http://localhost:5000/room/owner?owner=True"       查詢屋主之刊登資訊
 @app.route('/room/owner')
 def owner():
     owner = request.args.get('owner', default = "", type = str)
@@ -60,12 +65,36 @@ def owner():
     return str(result)
 
 
+#【臺北】【屋主為女性】【姓氏為吳】所刊登的所有租屋物件
+#curl "http://localhost:5000/room/select?location=Taipei&owner=MissWu1"
+#curl "http://localhost:5000/room/select?location=Taipei&owner=MissWu2"
+#curl "http://localhost:5000/room/select?location=Taipei&owner=MissWu3"
+@app.route('/room/select')
+def select():
+    location = request.args.get('location', default = "", type = str)
+    owner = request.args.get('owner', default = "", type = str)
+    print(request.args)
+    queryLocation = "新北市"
+    queryowner = ""
+    if location == "Taipei":
+        queryLocation = "台北市"
+    if owner == "MissWu1":
+        queryowner = "吳小姐"
+    if owner == "MissWu2":
+        queryowner = "吳媽媽"
+    if owner == "MissWu3":
+        queryowner = "吳阿姨"
+    if owner == "MissWu4":
+        queryowner = "吳太太"
 
-#   1.【設計/建立 RESTful API】供查詢下列資訊: 【以 JSON 格式回傳，請自訂 Schema】
-# - 2. 【男生可承租】且【位於新北】的租屋物件, gender=male&location=newTaipei
-# - 3. 以【聯絡電話】查詢租屋物件, phone= 
-# - 4. 所有【非屋主自行刊登】的租屋物件  byOwner=False
-# - 5. 【臺北】【屋主為女性】【姓氏為吳】所刊登的所有租屋物件 location=,owner_gender=,owner_name
+    result = []
+    print(queryLocation)
+    print(queryowner)
+    for room in collection.find({"location":queryLocation,"HouseOwner" : queryowner}):
+        result.append(room)
+    return str(result)
+    
+
 
 #$ export FLASK_APP=server.py
 #$ python -m flask run

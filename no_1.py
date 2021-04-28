@@ -28,11 +28,11 @@ def parse_XML(xml_file, df_cols):
 
 
 
-df_a = parse_XML('hw_1/a_lvr_land_a.xml',df_cols)
-df_b = parse_XML('hw_1/b_lvr_land_a.xml',df_cols)
-df_e = parse_XML('hw_1/e_lvr_land_a.xml',df_cols)
-df_f = parse_XML('hw_1/f_lvr_land_a.xml',df_cols)
-df_h = parse_XML('hw_1/h_lvr_land_a.xml',df_cols)
+df_a = parse_XML('/Users/ReformerzAplus/project_2/hw_1/a_lvr_land_a.xml',df_cols)
+df_b = parse_XML('/Users/ReformerzAplus/project_2/hw_1/b_lvr_land_a.xml',df_cols)
+df_e = parse_XML('/Users/ReformerzAplus/project_2/hw_1/e_lvr_land_a.xml',df_cols)
+df_f = parse_XML('/Users/ReformerzAplus/project_2/hw_1/f_lvr_land_a.xml',df_cols)
+df_h = parse_XML('/Users/ReformerzAplus/project_2/hw_1/h_lvr_land_a.xml',df_cols)
 df_all = pd.concat([df_a, df_b, df_e, df_f, df_h])
 
 
@@ -60,5 +60,5 @@ print("平均車位總價元: ", avg_post_car_value)
 filter_b_df = { '總件數': [total_data_count] , '總車位數': [total_post_car] , '平均總價元': [avg_value] , '平均車位總價元': [avg_post_car_value] }
 filter_b = pd.DataFrame(filter_b_df)
 
-result.to_csv(r'/filter_a.csv', encoding='utf_8_sig', index = False, header=True)
-filter_b.to_csv(r'/filter_b.csv', encoding='utf_8_sig', index = False, header=True)
+result.to_csv(r'/Users/ReformerzAplus/project_2/filter_a.csv', encoding='utf_8_sig', index = False, header=True)
+filter_b.to_csv(r'/Users/ReformerzAplus/project_2/filter_b.csv', encoding='utf_8_sig', index = False, header=True)

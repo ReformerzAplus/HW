@@ -82,25 +82,20 @@ def getAllData(url):
 
 #開啟瀏覽器Chrome
 chrome_options = Options() # 啟動無頭模式
-# chrome_options.add_argument('--headless')
+chrome_options.add_argument('--headless')  #網頁執行於背景
 driver = webdriver.Chrome("/Users/ReformerzAplus/project_2/chromedriver", options=chrome_options)
 url = "https://rent.591.com.tw/?kind=0&region=1"
 driver.get(url)
 sleep(1) # seconds
 
-#點擊地區（台北）
-#Taipei = driver.execute_script("document.querySelector(\"[data-id='1']\").click()")
-NewTaipeiCity = driver.execute_script("document.querySelector(\"[data-id='3']\").click()")
+###點擊地區（台北市）
+Taipei = driver.execute_script("document.querySelector(\"[data-id='1']\").click()")
+sleep(2) # seconds
+getAllData(Taipei)
+
 sleep(1) # seconds
-
-# options = webdriver.ChromeOptions()
-# prefs = {
-#     'profile.default_content_setting_values' :
-#         {
-#         'notifications' : 2
-#         }
-# }
-# options.add_experimental_option('prefs',prefs)
-
-#getAllData(Taipei)
+###點擊地區（新北市）
+NewTaipeiCity = driver.execute_script("document.querySelector(\"[data-id='3']\").click()")
+sleep(2) # seconds
 getAllData(NewTaipeiCity)
+driver.close()
