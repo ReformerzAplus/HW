@@ -15,7 +15,7 @@ db = client.hw_2_591
 collection = db.house_info
 
 # 【男生可承租】且【位於新北】的租屋物件
-# curl "http://localhost:5000/room?location=NewTaipeiCity&gender=female"
+# curl "http://localhost:5000/room?location=NewTaipeiCity&gender=male"
 @app.route('/room')
 def getRoom():
     location = request.args.get('location')
